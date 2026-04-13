@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Music App Prototype</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --nav-bg: #2a2a2a; /* Cinza padrão da barra */
+            --accent: #1db954;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            color: var(--text-color);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s;
+        }
+
+        /* Classes para o Liquid Glass */
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Área Principal que rola */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 80px; /* Espaço da nav bar */
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Estilos da Home */
+        .header-playlists {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .large-playlist {
+            flex: 1;
+            height: 120px;
+            background: #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .section-title {
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+        .grid-6 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .grid-item {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Inputs e Botões */
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #333;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .toggle {
+            width: 40px;
+            height: 20px;
+            background: #555;
+            border-radius: 10px;
+            position: relative;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+        .toggle.active { background: var(--accent); }
+        .toggle.active::after { left: 22px; }
+
+        /* Barra Inferior */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 65px;
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #aaa;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: var(--accent);
+        }
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        /* Donate e Footer */
+        .pix-box {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer-msg {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <div id="home" class="screen active">
+            <div class="header-playlists">
+                <div class="large-playlist">Playlist 1</div>
+                <div class="large-playlist">Playlist 2</div>
+            </div>
+
+            <h2 class="section-title">Mais Ouvidas</h2>
+            <div class="grid-6">
+                <div class="grid-item"><div style="width:40px;height:40px;background:#555;"></div> Música 1</div>
+                <div class="grid-item"><div style="width:40px;height:40px;background:#555;"></div> Música 2</div>
+                <div class="grid-item"><div style="width:40px;height:40px;background:#555;"></div> Música 3</div>
+                <div class="grid-item"><div style="width:40px;height:40px;background:#555;"></div> Música 4</div>
+                <div class="grid-item"><div style="width:40px;height:40px;background:#555;"></div> Música 5</div>
+                <div class="grid-item"><div style="width:40px;height:40px;background:#555;"></div> Música 6</div>
+            </div>
+
+            <h2 class="section-title">Recomendadas (Online)</h2>
+            <div class="grid-item" style="margin-bottom: 10px;">Mix Diário 1</div>
+            <div class="grid-item">Descobertas da Semana</div>
+        </div>
+
+        <div id="search" class="screen">
+            <input type="text" placeholder="O que você quer ouvir?">
+            <h2 class="section-title">Tocadas Recentemente</h2>
+            <p style="color: #aaa; font-size: 14px;">(Últimas horas)</p>
+            <div class="setting-item">Última música tocada</div>
+            <div class="setting-item">Música anterior</div>
+            <div class="setting-item">Podcast ouvido mais cedo</div>
+        </div>
+
+        <div id="playlists" class="screen">
+            <h2 class="section-title">Sua Biblioteca</h2>
+            <p>Suas playlists salvas aparecerão aqui.</p>
+        </div>
+
+        <div id="settings" class="screen">
+            <h2 class="section-title">Aparência</h2>
+            
+            <div class="setting-item">
+                <span>Ativar Tema Liquid Glass</span>
+                <div class="toggle" onclick="toggleGlass(this)"></div>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <label style="display:block; margin-bottom: 8px;">Definir Wallpaper:</label>
+                <input type="file" id="wallpaper-upload" accept="image/*">
+            </div>
+
+            <h2 class="section-title">Mídia e Armazenamento</h2>
+            
+            <div style="margin-top: 15px;">
+                <label style="display:block; margin-bottom: 8px;">Internal Storage (Importar Músicas):</label>
+                <input type="file" multiple accept="audio/*">
+            </div>
+
+            <div class="setting-item" onclick="alert('Abrindo Equalizador...')">
+                <span>Equalizador</span>
+                <span>🎚️</span>
+            </div>
+
+            <h2 class="section-title">Otimização e Sistema</h2>
+
+            <div class="setting-item">
+                <span>Modo Economia (Reduzir Qualidade)</span>
+                <div class="toggle" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <span>Pausar sem Bluetooth</span>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <span>Aviso de Fones Desconectados</span>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item" onclick="alert('Buscando atualizações (Versão Canary)...')">
+                <span>Buscar Atualizações</span>
+                <span>🔄</span>
+            </div>
+
+            <div class="footer-msg">
+                <p><strong>Obrigado por escolher meu app!</strong></p>
+                <p style="font-size: 12px; margin-top: 5px;">Versão 1.0 (Legacy/Canary)</p>
+            </div>
+        </div>
+
+        <div id="donate" class="screen">
+            <h2 class="section-title" style="text-align: center;">Apoie o Projeto</h2>
+            <p style="text-align: center; color: #aaa;">Se você gosta do app e quiser contribuir para o desenvolvimento (como as versões ARM32 e otimizações), considere enviar um Pix!</p>
+            
+            <div class="pix-box">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SEU_CODIGO_PIX_AQUI" alt="QR Code Pix" style="margin-bottom: 15px; border-radius: 10px;">
+                <p style="font-family: monospace; background: #222; padding: 10px; border-radius: 5px;">00020126580014br.gov.bcb.pix...</p>
+                <button style="margin-top: 15px; padding: 10px 20px; background: var(--accent); border: none; border-radius: 20px; font-weight: bold;" onclick="alert('Código copiado!')">Copiar Chave Pix</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav" id="navbar">
+        <div class="nav-item active" onclick="navigate('home', this)">
+            <span class="nav-icon">🏠</span>
+            <span>Início</span>
+        </div>
+        <div class="nav-item" onclick="navigate('search', this)">
+            <span class="nav-icon">🔍</span>
+            <span>Busca</span>
+        </div>
+        <div class="nav-item" onclick="navigate('playlists', this)">
+            <span class="nav-icon">🎵</span>
+            <span>Playlists</span>
+        </div>
+        <div class="nav-item" onclick="navigate('settings', this)">
+            <span class="nav-icon">⚙️</span>
+            <span>Config</span>
+        </div>
+        <div class="nav-item" onclick="navigate('donate', this)">
+            <span class="nav-icon">☕</span>
+            <span>Donate</span>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de Navegação (Mudar de Telas)
+        function navigate(targetId, navElement) {
+            // Esconde todas as telas
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            // Mostra a tela alvo
+            document.getElementById(targetId).classList.add('active');
+
+            // Atualiza o estado da barra de navegação
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            navElement.classList.add('active');
+        }
+
+        // Sistema de Wallpaper (Lê arquivo local e aplica no fundo)
+        document.getElementById('wallpaper-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.body.style.backgroundImage = `url(${event.target.result})`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Toggle do Liquid Glass (Glassmorphism)
+        function toggleGlass(element) {
+            element.classList.toggle('active');
+            const navbar = document.getElementById('navbar');
+            
+            if (element.classList.contains('active')) {
+                navbar.classList.add('liquid-glass');
+                navbar.style.backgroundColor = 'transparent';
+            } else {
+                navbar.classList.remove('liquid-glass');
+                navbar.style.backgroundColor = 'var(--nav-bg)';
+            }
+        }
+    </script>
+</body>
+  </html>
+
