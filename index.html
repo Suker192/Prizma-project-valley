@@ -11,175 +11,146 @@
 
 <style>
 :root{
-    --bg:#0d0d0d;
-    --card:rgba(255,255,255,0.05);
-    --accent:#1db954;
-    --text:#fff;
+--accent:#1db954;
 }
 
 /* BASE */
 body{
-    margin:0;
-    font-family:sans-serif;
-    color:white;
-    background:#000;
+margin:0;
+font-family:sans-serif;
+color:white;
+background:#000;
 }
 
-/* WALLPAPER */
-.wallpaper{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background-size:cover;
-    background-position:center;
-    filter:blur(10px);
-    opacity:0.4;
-    z-index:-1;
+/* WALL */
+.wall{
+position:fixed;
+width:100%;
+height:100%;
+background-size:cover;
+background-position:center;
+filter:blur(10px);
+opacity:0.4;
+z-index:-1;
 }
 
 /* HEADER */
 .header{
-    padding:20px;
-    font-size:22px;
-    font-weight:bold;
-}
-
-/* TABS */
-.tabs{
-    display:flex;
-    gap:10px;
-    padding:0 15px;
-}
-.tab{
-    padding:8px 15px;
-    background:#222;
-    border-radius:20px;
-    font-size:13px;
-}
-.tab.active{
-    background:#444;
+padding:20px;
+font-size:22px;
+font-weight:bold;
 }
 
 /* CONTAINER */
 .container{
-    padding:15px;
-    padding-bottom:100px;
+padding:15px;
+padding-bottom:100px;
 }
 
 /* CARD */
 .card{
-    background:var(--card);
-    backdrop-filter:blur(12px);
-    border-radius:20px;
-    padding:15px;
-    margin-bottom:15px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+border-radius:20px;
+padding:15px;
+margin-bottom:15px;
 }
 
-/* TITLE */
-.title{font-size:18px;font-weight:bold;}
-.desc{color:#aaa;font-size:13px;margin:5px 0;}
-
-/* BUTTON */
-.btn{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:30px;
-    background:#6ea8d9;
-    color:#000;
-    font-weight:bold;
-    margin-top:10px;
+/* PLAYER */
+.player-controls{
+display:flex;
+justify-content:space-between;
+margin-top:10px;
 }
 
-/* SETTINGS */
-.setting{
-    display:flex;
-    justify-content:space-between;
-    margin:10px 0;
+button{
+padding:10px;
+border:none;
+border-radius:10px;
+background:#222;
+color:white;
 }
 
 /* TOGGLE */
 .toggle{
-    width:40px;height:20px;background:#555;border-radius:10px;position:relative;
+width:40px;height:20px;background:#555;border-radius:10px;position:relative;
 }
 .toggle::after{
-    content:"";width:16px;height:16px;background:white;border-radius:50%;
-    position:absolute;top:2px;left:2px;transition:.3s;
+content:"";width:16px;height:16px;background:white;border-radius:50%;
+position:absolute;top:2px;left:2px;transition:.3s;
 }
 .toggle.active{background:var(--accent);}
 .toggle.active::after{left:22px;}
 
-/* INPUT */
-input,select{
-    width:100%;
-    padding:10px;
-    border-radius:10px;
-    border:none;
-    background:#222;
-    color:white;
-    margin-top:10px;
+.setting{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
 }
 
 /* NAV */
 .nav{
-    position:fixed;
-    bottom:15px;
-    left:10px;
-    right:10px;
-    height:65px;
-    background:rgba(0,0,0,0.7);
-    backdrop-filter:blur(10px);
-    border-radius:30px;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
+position:fixed;
+bottom:15px;
+left:10px;
+right:10px;
+height:65px;
+background:rgba(0,0,0,0.7);
+backdrop-filter:blur(10px);
+border-radius:30px;
+display:flex;
+justify-content:space-around;
+align-items:center;
 }
 
-.nav div{
-    font-size:12px;
-    text-align:center;
-    color:#aaa;
-}
+.nav div{color:#aaa;}
+.nav .active{color:white;}
 
-.nav .active{
-    color:white;
-}
-
-/* SCREENS */
 .screen{display:none;}
 .active-screen{display:block;}
 
+input,select{
+width:100%;
+margin-top:10px;
+padding:10px;
+border-radius:10px;
+border:none;
+background:#222;
+color:white;
+}
 </style>
 </head>
 
 <body>
 
-<div class="wallpaper" id="wall"></div>
+<div class="wall" id="wall"></div>
 
 <div class="header">Prizma 🎧</div>
-
-<div class="tabs">
-    <div class="tab active">Trending</div>
-    <div class="tab">Popular</div>
-</div>
 
 <div class="container">
 
 <!-- HOME -->
 <div id="home" class="screen active-screen">
-    <div class="card">
-        <div class="title">openclaw</div>
-        <div class="desc">AI assistant multiplataforma</div>
-        ⭐ 355k • 🌴 71k
-        <button class="btn">Ver Detalhes</button>
-    </div>
 
-    <div class="card">
-        <div class="title">worldmonitor</div>
-        <div class="desc">Dashboard global em tempo real</div>
-        ⭐ 47k • 🌴 7k
-        <button class="btn">Ver Detalhes</button>
-    </div>
+<div class="card">
+<h3>🎵 Player</h3>
+
+<input type="file" id="musicFile" multiple accept="audio/*">
+
+<p id="musicName">Nenhuma música</p>
+
+<audio id="audio"></audio>
+
+<div class="player-controls">
+<button onclick="back()">⏮️</button>
+<button onclick="playPause()">⏯️</button>
+<button onclick="next()">⏭️</button>
+</div>
+
+<input type="range" id="progress">
+
+</div>
+
 </div>
 
 <!-- SETTINGS -->
@@ -188,31 +159,30 @@ input,select{
 <div class="card">
 <h3>🎧 Reprodução</h3>
 
-<label>Velocidade</label>
-<select>
-<option>1x</option><option>1.5x</option><option>2x</option>
+<select id="speed">
+<option value="1">1x</option>
+<option value="1.5">1.5x</option>
+<option value="2">2x</option>
 </select>
 
-<div class="setting"><span>Shuffle</span><div class="toggle" onclick="t(this)"></div></div>
-<div class="setting"><span>Retomar</span><div class="toggle active" onclick="t(this)"></div></div>
+<div class="setting"><span>Shuffle</span><div class="toggle" id="shuffle" onclick="t(this)"></div></div>
 
-<label>Avanço rápido (segundos)</label>
-<input type="number" value="10">
+<div class="setting"><span>Repeat</span><div class="toggle" id="repeat" onclick="t(this)"></div></div>
 
 </div>
 
 <div class="card">
 <h3>📶 Dados</h3>
 
-<label>Qualidade</label>
 <select>
-<option>Baixa</option><option>Média</option><option>Alta</option>
+<option>Baixa</option>
+<option>Média</option>
+<option>Alta</option>
 </select>
 
-<div class="setting"><span>Wi-Fi apenas</span><div class="toggle" onclick="t(this)"></div></div>
 <div class="setting"><span>Modo economia</span><div class="toggle" onclick="t(this)"></div></div>
 
-<button class="btn" onclick="alert('Cache limpo')">Limpar cache</button>
+<button onclick="alert('Cache limpo')">Limpar cache</button>
 
 </div>
 
@@ -221,19 +191,15 @@ input,select{
 
 <input type="file" id="wp">
 
-<label>Opacidade</label>
 <input type="range" min="0.2" max="0.6" step="0.05" id="op">
-
-<div class="setting"><span>Modo minimalista</span><div class="toggle" onclick="t(this)"></div></div>
 
 </div>
 
 <div class="card">
 <h3>🔊 Bluetooth</h3>
 
-<div class="setting"><span>Pausar ao desconectar</span><div class="toggle active" onclick="t(this)"></div></div>
-<div class="setting"><span>Retomar</span><div class="toggle active" onclick="t(this)"></div></div>
-<div class="setting"><span>Perguntar</span><div class="toggle active" onclick="t(this)"></div></div>
+<div class="setting"><span>Pausar ao desconectar</span><div class="toggle active"></div></div>
+<div class="setting"><span>Retomar</span><div class="toggle active"></div></div>
 
 </div>
 
@@ -241,7 +207,6 @@ input,select{
 <h3>🧠 Extras</h3>
 
 <div class="setting"><span>Sleep timer</span><div class="toggle" onclick="sleep()"></div></div>
-<div class="setting"><span>Modo foco</span><div class="toggle" onclick="t(this)"></div></div>
 
 </div>
 
@@ -261,7 +226,6 @@ input,select{
 function go(id,el){
 document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active-screen'));
 document.getElementById(id).classList.add('active-screen');
-
 document.querySelectorAll('.nav div').forEach(n=>n.classList.remove('active'));
 el.classList.add('active');
 }
@@ -269,21 +233,75 @@ el.classList.add('active');
 // TOGGLE
 function t(el){el.classList.toggle('active');}
 
+// PLAYER
+let audio=document.getElementById("audio");
+let progress=document.getElementById("progress");
+let musicName=document.getElementById("musicName");
+
+let playlist=[];
+let current=0;
+
+document.getElementById("musicFile").onchange=e=>{
+let files=Array.from(e.target.files);
+playlist=[];
+files.forEach(f=>{
+playlist.push({name:f.name,src:URL.createObjectURL(f)});
+});
+load(0);
+};
+
+function load(i){
+current=i;
+audio.src=playlist[i].src;
+musicName.innerText=playlist[i].name;
+audio.play();
+}
+
+function playPause(){audio.paused?audio.play():audio.pause();}
+
+function next(){
+if(document.getElementById("shuffle").classList.contains("active")){
+load(Math.floor(Math.random()*playlist.length));
+return;
+}
+if(current<playlist.length-1){load(current+1);}
+else if(document.getElementById("repeat").classList.contains("active")){
+load(0);
+}
+}
+
+function back(){if(current>0)load(current-1);}
+
+audio.ontimeupdate=()=>{
+progress.value=(audio.currentTime/audio.duration)*100||0;
+};
+
+progress.oninput=()=>{
+audio.currentTime=(progress.value/100)*audio.duration;
+};
+
+audio.onended=()=>next();
+
+// VELOCIDADE
+document.getElementById("speed").onchange=e=>{
+audio.playbackRate=e.target.value;
+};
+
 // WALLPAPER
-let wall = document.getElementById("wall");
+let wall=document.getElementById("wall");
 
 document.getElementById("wp").onchange=e=>{
 let r=new FileReader();
 r.onload=()=>{
 wall.style.backgroundImage=`url(${r.result})`;
 localStorage.setItem("wall",r.result);
-}
+};
 r.readAsDataURL(e.target.files[0]);
 };
 
 window.onload=()=>{
 let w=localStorage.getItem("wall");
-if(w) wall.style.backgroundImage=`url(${w})`;
+if(w)wall.style.backgroundImage=`url(${w})`;
 };
 
 // OPACIDADE
@@ -293,7 +311,7 @@ wall.style.opacity=e.target.value;
 
 // SLEEP
 function sleep(){
-setTimeout(()=>alert("Música pausada"),1800000);
+setTimeout(()=>audio.pause(),1800000);
 }
 
 // SERVICE WORKER
